@@ -16,15 +16,11 @@ const Index = () => {
     () => simulate({ v0, angle, h0, airResistance, dragCoeff }),
     [v0, angle, h0, airResistance, dragCoeff]
   );
-
-  return (
+      return (
     <div className="min-h-screen bg-background p-4 md:p-8">
       <div className="max-w-6xl mx-auto space-y-6">
         {/* Header */}
         <header className="flex items-center gap-3 pb-2">
-          <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center glow-primary">
-            <Target className="w-5 h-5 text-primary" />
-          </div>
           <div>
             <h1 className="text-xl md:text-2xl font-bold tracking-tight text-foreground">
               Simulador de Lançamento Oblíquo

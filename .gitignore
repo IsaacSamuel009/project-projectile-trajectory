@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # Logs
+=======
+
+>>>>>>> 7b4b469 ("Deleted subproject Projeto01 with commit 92101903b69e1971b27a261344b361f20fcd99c7")
 logs
 *.log
 npm-debug.log*
@@ -12,7 +16,10 @@ dist
 dist-ssr
 *.local
 
+<<<<<<< HEAD
 # Editor directories and files
+=======
+>>>>>>> 7b4b469 ("Deleted subproject Projeto01 with commit 92101903b69e1971b27a261344b361f20fcd99c7")
 .vscode/*
 !.vscode/extensions.json
 .idea
@@ -22,3 +29,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+<<<<<<< HEAD
+=======
+# Não apaguem esse cod, ele evitar arquivos desnecessários no repositório
+>>>>>>> 7b4b469 ("Deleted subproject Projeto01 with commit 92101903b69e1971b27a261344b361f20fcd99c7")

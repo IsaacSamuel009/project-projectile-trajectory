@@ -1,8 +1,11 @@
 import { useState, useMemo } from "react";
 import { simulate } from "@/lib/physics/projectile";
+import { PLANETS } from "@/lib/physics/planets";
 import ControlPanel from "@/components/simulation/ControlPanel";
 import TrajectoryChart from "@/components/simulation/TrajectoryChart";
 import ResultStats from "@/components/simulation/ResultStats";
+import PlanetSelector from "@/components/simulation/PlanetSelector";
+import DataTable from "@/components/simulation/DataTable";
 import { Target } from "lucide-react";
 
 const Index = () => {
@@ -11,15 +14,34 @@ const Index = () => {
   const [h0, setH0] = useState(0);
   const [airResistance, setAirResistance] = useState(false);
   const [dragCoeff, setDragCoeff] = useState(0.05);
+  const [selectedPlanets, setSelectedPlanets] = useState<string[]>([]);
 
   const result = useMemo(
-    () => simulate({ v0, angle, h0, airResistance, dragCoeff }),
+    () => simulate({ v0, angle, h0, airResistance, dragCoeff, gravity: 9.8 }),
     [v0, angle, h0, airResistance, dragCoeff]
   );
 
+  const planetResults = useMemo(() => {
+    return selectedPlanets
+      .filter((id) => id !== "earth")
+      .map((id) => {
+        const planet = PLANETS.find((p) => p.id === id)!;
+        return {
+          planet,
+          result: simulate({ v0, angle, h0, airResistance: false, gravity: planet.gravity }),
+        };
+      });
+  }, [selectedPlanets, v0, angle, h0]);
+
+  const handleTogglePlanet = (id: string) => {
+    setSelectedPlanets((prev) =>
+      prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]
+    );
+  };
+
   return (
     <div className="min-h-screen bg-background p-4 md:p-8">
-      <div className="max-w-6xl mx-auto space-y-6">
+      <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
         <header className="flex items-center gap-3 pb-2">
           <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center glow-primary">
@@ -30,36 +52,37 @@ const Index = () => {
               Simulador de Lançamento Oblíquo
             </h1>
             <p className="text-sm text-muted-foreground">
-              Movimento de projétil com análise em tempo real
+              Movimento de projétil com análise em tempo real · Comparação interplanetária
             </p>
           </div>
         </header>
 
         {/* Stats */}
-        <ResultStats result={result} />
+        <ResultStats result={result} planetResults={planetResults} />
 
         {/* Main content */}
         <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-6">
-          <ControlPanel
-            v0={v0}
-            angle={angle}
-            h0={h0}
-            airResistance={airResistance}
-            dragCoeff={dragCoeff}
-            onV0Change={setV0}
-            onAngleChange={setAngle}
-            onH0Change={setH0}
-            onAirResistanceChange={setAirResistance}
-            onDragCoeffChange={setDragCoeff}
-          />
-          <TrajectoryChart result={result} showAir={airResistance} />
+          <div className="space-y-6">
+            <ControlPanel
+              v0={v0} angle={angle} h0={h0}
+              airResistance={airResistance} dragCoeff={dragCoeff}
+              onV0Change={setV0} onAngleChange={setAngle} onH0Change={setH0}
+              onAirResistanceChange={setAirResistance} onDragCoeffChange={setDragCoeff}
+            />
+            <PlanetSelector selected={selectedPlanets} onToggle={handleTogglePlanet} />
+          </div>
+          <TrajectoryChart result={result} showAir={airResistance} planetResults={planetResults} />
         </div>
 
-        {/* Equations info */}
+        {/* Data Table */}
+        <DataTable trajectory={result.trajectory} />
+
+        {/* Equations */}
         <div className="glass-panel p-5 text-sm text-muted-foreground font-mono space-y-1">
           <p>x(t) = v₀·cos(θ)·t</p>
           <p>y(t) = h₀ + v₀·sin(θ)·t − ½·g·t²</p>
-          <p className="text-xs mt-2">g = 9,8 m/s²</p>
+          <p>Vx(t) = v₀·cos(θ)    |    Vy(t) = v₀·sin(θ) − g·t</p>
+          <p className="text-xs mt-2">g varia por planeta · Terra: 9,8 m/s²</p>
         </div>
       </div>
     </div>

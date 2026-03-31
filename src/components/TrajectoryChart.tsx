@@ -85,7 +85,20 @@ const TrajectoryChart = ({ result, showAir }: Props) => {
         <h2 className="text-sm font-mono uppercase tracking-widest text-muted-foreground">
           Trajetória do Projétil
         </h2>
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-0.5 mr-1">
+            {SPEED_OPTIONS.map((s) => (
+              <Button
+                key={s}
+                variant={speed === s ? "default" : "ghost"}
+                size="sm"
+                onClick={() => setSpeed(s)}
+                className="text-xs px-2 h-7 min-w-0"
+              >
+                {s}x
+              </Button>
+            ))}
+          </div>
           <Button variant="outline" size="sm" onClick={handlePlay} className="gap-1.5 text-xs">
             {playing ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
             {playing ? "Pausar" : "Animar"}

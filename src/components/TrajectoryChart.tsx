@@ -19,12 +19,15 @@ interface Props {
   showAir: boolean;
 }
 
+const SPEED_OPTIONS = [0.5, 1, 2] as const;
+
 const TrajectoryChart = ({ result, showAir }: Props) => {
   const [animIndex, setAnimIndex] = useState<number | null>(null);
   const [playing, setPlaying] = useState(false);
+  const [speed, setSpeed] = useState<number>(1);
   const rafRef = useRef<number>();
   const startTimeRef = useRef<number>(0);
-  const durationMs = Math.max(result.totalTime * 400, 1000); // animation duration
+  const durationMs = Math.max((result.totalTime * 400) / speed, 500);
 
   const stop = useCallback(() => {
     setPlaying(false);

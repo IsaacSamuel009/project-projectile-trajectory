@@ -1,8 +1,8 @@
 import { useState, useMemo } from "react";
-import { simulate } from "@/lib/projectile";
-import ControlPanel from "@/components/ControlPanel";
-import TrajectoryChart from "@/components/TrajectoryChart";
-import ResultStats from "@/components/ResultStats";
+import { simulate } from "@/lib/physics/projectile";
+import ControlPanel from "@/components/simulation/ControlPanel";
+import TrajectoryChart from "@/components/simulation/TrajectoryChart";
+import ResultStats from "@/components/simulation/ResultStats";
 import { Target } from "lucide-react";
 
 const Index = () => {

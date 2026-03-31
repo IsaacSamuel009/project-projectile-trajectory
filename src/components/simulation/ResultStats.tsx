@@ -1,4 +1,4 @@
-import type { ProjectileResult } from "@/lib/projectile";
+import type { ProjectileResult } from "@/lib/physics/projectile";
 import { ArrowUp, MoveHorizontal, Clock } from "lucide-react";
 
 interface Props {

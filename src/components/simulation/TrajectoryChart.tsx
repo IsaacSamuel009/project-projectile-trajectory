@@ -10,7 +10,7 @@ import {
   Legend,
   ReferenceDot,
 } from "recharts";
-import type { ProjectileResult } from "@/lib/projectile";
+import type { ProjectileResult } from "@/lib/physics/projectile";
 import { Play, Pause, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
